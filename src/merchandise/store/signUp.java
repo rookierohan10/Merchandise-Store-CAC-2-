@@ -9,7 +9,9 @@ package merchandise.store;
  * @author HP
  */
 
+import java.awt.Image;
 import java.sql.*;
+import javax.swing.ImageIcon;
 public class signUp extends javax.swing.JFrame {
 
     /**
@@ -17,6 +19,14 @@ public class signUp extends javax.swing.JFrame {
      */
     public signUp() {
         initComponents();
+        ImageIcon icon = new ImageIcon("C:\\Users\\HP\\Desktop\\sem3\\javaFilesPersonal\\javalab\\java cac 2\\merchandise store\\src\\merchandise\\store\\closebutton.png");
+        Image image = icon.getImage();
+        image = image.getScaledInstance(closeButton.getWidth(), closeButton.getHeight(), Image.SCALE_SMOOTH);
+        icon = new ImageIcon(image);
+        closeButton.setIcon(icon);
+        closeButton.setBorderPainted(false);
+        closeButton.setContentAreaFilled(false);
+        closeButton.setFocusPainted(false);
     }
 
     /**
@@ -46,13 +56,15 @@ public class signUp extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         phoneNumberErrorMessage = new javax.swing.JLabel();
         phoneNumberField = new javax.swing.JTextField();
+        closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1051, 493));
-        setSize(new java.awt.Dimension(1051, 493));
+        setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1128, 528));
+        setSize(new java.awt.Dimension(1128, 528));
 
         background.setBackground(new java.awt.Color(244, 0, 51));
-        background.setPreferredSize(new java.awt.Dimension(1051, 493));
+        background.setPreferredSize(new java.awt.Dimension(1174, 508));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1012, 481));
@@ -250,7 +262,7 @@ public class signUp extends javax.swing.JFrame {
                         .addComponent(phoneNumberField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(phoneNumberErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(confimationMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
@@ -259,6 +271,16 @@ public class signUp extends javax.swing.JFrame {
                 .addGap(11, 11, 11))
         );
 
+        closeButton.setBackground(new java.awt.Color(244, 0, 51));
+        closeButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        closeButton.setForeground(new java.awt.Color(255, 255, 255));
+        closeButton.setPreferredSize(new java.awt.Dimension(30, 45));
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
@@ -266,13 +288,19 @@ public class signUp extends javax.swing.JFrame {
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addGap(69, 69, 69)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -280,11 +308,11 @@ public class signUp extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 1165, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 1128, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
         );
 
         pack();
@@ -305,7 +333,25 @@ public class signUp extends javax.swing.JFrame {
     private void passwordFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordFieldMouseEntered
 
     }//GEN-LAST:event_passwordFieldMouseEntered
-
+    
+    private static byte passwordVerification(String password){
+        boolean capLetter=false, number=false, specialCharacter=false;
+        if( password.length()<=8 ) return 4;
+        else{
+            for( int i=0;i<password.length();i++ ){
+                char ch = password.charAt(i);
+                if( ch>='A' && ch<='Z' ) capLetter=true;
+                if( ch>='0' && ch<='9' ) number=true;
+                int asc = (int)ch;
+                if((asc>=32 && asc<=47) || (asc>=58 && asc<=64) || (asc>=91 && asc<=96) || (asc>=123 && asc<=126)) specialCharacter = true;
+            }
+        }
+        if(!capLetter) return 1;
+        if(!number) return 2;
+        if(!specialCharacter) return 3;
+        return 0;
+    }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         boolean flag=false;
         char[] pass = passwordField.getPassword();
@@ -334,6 +380,35 @@ public class signUp extends javax.swing.JFrame {
             passwordErrorMessage.setText("");
             addressErrorMessage.setText("");
             phoneNumberErrorMessage.setText("Enter phone number first");
+        }
+        else if( passwordVerification(passwordString) != 0){
+            byte val = passwordVerification(passwordString);
+            switch (val) {
+                case 1 -> {
+                    userNameErrorMessage.setText("");
+                    passwordErrorMessage.setText("Password should contain capital letter");
+                    addressErrorMessage.setText("");
+                    phoneNumberErrorMessage.setText("");
+                }
+                case 2 -> {
+                    userNameErrorMessage.setText("");
+                    passwordErrorMessage.setText("Password should contain a number");
+                    addressErrorMessage.setText("");
+                    phoneNumberErrorMessage.setText("");
+                }
+                case 3 -> {
+                    userNameErrorMessage.setText("");
+                    passwordErrorMessage.setText("Password should contain special character");
+                    addressErrorMessage.setText("");
+                    phoneNumberErrorMessage.setText("");
+                }
+                default -> {
+                    userNameErrorMessage.setText("");
+                    passwordErrorMessage.setText("Password should contain more than 8 characters");
+                    addressErrorMessage.setText("");
+                    phoneNumberErrorMessage.setText("");
+                }
+            }
         }
         else{
             try{
@@ -412,6 +487,10 @@ public class signUp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_phoneNumberFieldActionPerformed
 
+    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_closeButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -447,6 +526,7 @@ public class signUp extends javax.swing.JFrame {
     private javax.swing.JLabel addressErrorMessage;
     private javax.swing.JTextField addressField;
     private javax.swing.JPanel background;
+    private javax.swing.JButton closeButton;
     private javax.swing.JLabel confimationMessage;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

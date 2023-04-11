@@ -4,11 +4,16 @@
  */
 package merchandise.store;
 
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /**
  *
@@ -21,6 +26,17 @@ public class login extends javax.swing.JFrame {
      */
     public login() {
         initComponents();
+        
+        
+        ImageIcon icon = new ImageIcon("C:\\Users\\HP\\Desktop\\sem3\\javaFilesPersonal\\javalab\\java cac 2\\merchandise store\\src\\merchandise\\store\\closebutton.png");
+        Image image = icon.getImage();
+        image = image.getScaledInstance(closeButton.getWidth(), closeButton.getHeight(), Image.SCALE_SMOOTH);
+        icon = new ImageIcon(image);
+        closeButton.setIcon(icon);
+        closeButton.setBorderPainted(false);
+        closeButton.setContentAreaFilled(false);
+        closeButton.setFocusPainted(false);
+
     }
 
     /**
@@ -43,9 +59,11 @@ public class login extends javax.swing.JFrame {
         passwordErrorMessage = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 0, 51));
+        setUndecorated(true);
         setSize(new java.awt.Dimension(1051, 493));
 
         background.setBackground(new java.awt.Color(244, 0, 51));
@@ -173,6 +191,16 @@ public class login extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
+        closeButton.setBackground(new java.awt.Color(244, 0, 51));
+        closeButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        closeButton.setForeground(new java.awt.Color(255, 255, 255));
+        closeButton.setPreferredSize(new java.awt.Dimension(30, 45));
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
@@ -180,13 +208,19 @@ public class login extends javax.swing.JFrame {
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addGap(258, 258, 258)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 257, Short.MAX_VALUE)
+                .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         backgroundLayout.setVerticalGroup(
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, backgroundLayout.createSequentialGroup()
+            .addGroup(backgroundLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -233,6 +267,11 @@ public class login extends javax.swing.JFrame {
                 String password = set.getString("password");
                 String enteredName = usernameField.getText();
                 if( name.compareTo(enteredName)==0 && password.compareTo(passwordString)==0 ){
+                    
+                    q="delete from "+enteredName+"Cart where id in (select id from products where quantity=0)";
+                    stmt = con.createStatement();
+                    stmt.executeUpdate(q);
+                    
                     new dashboard(name).setVisible(true);
                     dispose();
                 }
@@ -277,6 +316,10 @@ public class login extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_closeButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -310,6 +353,7 @@ public class login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
+    private javax.swing.JButton closeButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

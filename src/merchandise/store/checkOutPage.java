@@ -63,7 +63,7 @@ public class checkOutPage extends javax.swing.JFrame {
         navigateBackButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1051, 493));
+        setUndecorated(true);
         setSize(new java.awt.Dimension(1051, 493));
 
         background.setBackground(new java.awt.Color(244, 0, 51));
@@ -263,9 +263,13 @@ public class checkOutPage extends javax.swing.JFrame {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con =  DriverManager.getConnection("jdbc:mysql://127.0.0.1/javacac","root", "rookierohan");
-
-            String q = "truncate table "+username+"Cart";
+            
+            String q = "update products set quantity = quantity-1 where id in( select id from "+username+"Cart )";
             Statement stmt = con.createStatement();
+            stmt.executeUpdate(q);
+            
+            q = "truncate table "+username+"Cart";
+            stmt = con.createStatement();
             stmt.executeUpdate(q);
         }
         catch(ClassNotFoundException | SQLException e){

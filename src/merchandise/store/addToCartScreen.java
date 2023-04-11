@@ -103,6 +103,7 @@ public class addToCartScreen extends javax.swing.JFrame {
         priceText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jLayeredPane2.setBackground(new java.awt.Color(255, 255, 255));
         jLayeredPane2.setForeground(new java.awt.Color(255, 255, 255));

@@ -26,6 +26,7 @@ public class dashboard extends javax.swing.JFrame {
     JButton[] buttons;
     JButton[] addToCart;
     boolean[] itemTracker;
+    boolean[] available;
     String username;
     public dashboard(String name) {
         initComponents();
@@ -36,6 +37,7 @@ public class dashboard extends javax.swing.JFrame {
         
         icon = new ImageIcon[12];
         buttons = new JButton[12];
+        available = new boolean[12];
         itemTracker = new boolean[12];
         addToCart = new JButton[12];
         
@@ -97,6 +99,15 @@ public class dashboard extends javax.swing.JFrame {
             while(set.next()){
                 itemTracker[set.getInt("id")] = true;
             }
+            
+            q = "select * from products";
+            stmt = con.createStatement();
+            set = stmt.executeQuery(q);
+            
+            while(set.next()){
+                if( set.getInt("quantity") != 0 ) available[set.getInt("id")] = true;
+                else available[set.getInt("id")] = false;
+            }
             con.close();
         }
         catch(ClassNotFoundException | SQLException e){
@@ -108,7 +119,11 @@ public class dashboard extends javax.swing.JFrame {
             buttons[i].setBorderPainted(false);
             buttons[i].setContentAreaFilled(false);
             buttons[i].setFocusPainted(false);
-            if( itemTracker[i] == true) addToCart[i].setText("Remove item");
+            if( itemTracker[i] == true ) addToCart[i].setText("Remove item");
+            else if( available[i] == false ){
+                addToCart[i].setText("Unavailable");
+                addToCart[i].setEnabled(false);
+            }
             else addToCart[i].setText("Add to Cart");
         }
     }
@@ -198,6 +213,7 @@ public class dashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setUndecorated(true);
         setSize(new java.awt.Dimension(1051, 493));
 
         jLayeredPane2.setBackground(new java.awt.Color(255, 255, 255));
@@ -1300,12 +1316,16 @@ public class dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_addToCartItem2ActionPerformed
 
     private void addToCartItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToCartItem1ActionPerformed
+        for( int i=0;i<12;i++ )
+                System.out.print(itemTracker[i]+" ");
         if( itemTracker[0] == false ){
+            System.out.println("Adding item");
             itemTracker[0] = true;
             addToCartItem1.setText("Remove Item");
         }
         else{
             itemTracker[0] = false;
+            System.out.println("Removing item");
             addToCartItem1.setText("Add to Cart");
         }
         this.addOrRemoveOperation(0);
@@ -1434,14 +1454,14 @@ public class dashboard extends javax.swing.JFrame {
                 String q = "insert into "+tableName+" values("+index+")";
                 stmt = con.createStatement();
                 stmt.execute(q);
-                itemTracker[index] = false;
+                //itemTracker[index] = false;
             }
             else{
                 System.out.println("Trying to delete");            
                 String q = "delete from "+tableName+" where id="+index;
                 stmt =con.createStatement();
                 stmt.execute(q);
-                itemTracker[index] = true;
+                //itemTracker[index] = true;
             }
         }
         catch(ClassNotFoundException | SQLException e){
